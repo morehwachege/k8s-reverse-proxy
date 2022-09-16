@@ -11,7 +11,7 @@ before_script:
   - echo "no tests"
 script:
   - docker --version # print the version for logging
-  - docker build -t favorite-food --build-arg NAME=${NAME} .
+  - docker build -t simple-reverse-proxy --build-arg NAME=${NAME} .
   - docker tag favorite-food morehwachege/simple-reverse-proxy:latest
 after-success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin

@@ -1,21 +1,27 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: my-app
   labels:
-    app: my-app
+    service: reverseproxy
+  name: reverseproxy
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: my-app
+  replicas: 1
   template:
     metadata:
       labels:
-        app: my-app
+        service: reverseproxy
     spec:
       containers:
-      - name: simple-api
-        image: morehwachege/favorite-food
+      - image: morehwachege/simple-reverse-proxy
+        name: reverseproxy
+        imagePullPolicy: Always          
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"       
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+      restartPolicy: Always
